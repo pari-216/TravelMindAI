@@ -276,7 +276,7 @@ export default function AIItinerary() {
               placeholder="e.g. Kyoto, Japan"
               value={form.destination}
               onChange={(e) => setForm({ ...form, destination: e.target.value })}
-              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500 transition-colors"
             />
           </div>
 
@@ -290,7 +290,7 @@ export default function AIItinerary() {
               placeholder="e.g. 3000"
               value={form.budget}
               onChange={(e) => setForm({ ...form, budget: e.target.value })}
-              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500 transition-colors"
             />
           </div>
 
@@ -302,7 +302,7 @@ export default function AIItinerary() {
               type="date"
               value={form.startDate}
               onChange={(e) => setForm({ ...form, startDate: e.target.value })}
-              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500 transition-colors"
             />
           </div>
 
@@ -314,7 +314,7 @@ export default function AIItinerary() {
               type="date"
               value={form.endDate}
               onChange={(e) => setForm({ ...form, endDate: e.target.value })}
-              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500 transition-colors"
             />
           </div>
 
@@ -327,7 +327,7 @@ export default function AIItinerary() {
               min="1"
               value={form.travelers}
               onChange={(e) => setForm({ ...form, travelers: e.target.value })}
-              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500 transition-colors"
             />
           </div>
 
@@ -336,9 +336,9 @@ export default function AIItinerary() {
             <select
               value={form.travelStyle}
               onChange={(e) => setForm({ ...form, travelStyle: e.target.value })}
-              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500 transition-colors"
+              className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500 transition-colors"
             >
-              {TRAVEL_STYLES.map(s => <option key={s} value={s}>{s}</option>)}
+              {TRAVEL_STYLES.map(s => <option key={s} value={s} className="text-slate-800">{s}</option>)}
             </select>
           </div>
         </div>

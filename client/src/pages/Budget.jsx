@@ -102,7 +102,7 @@ export default function Budget() {
       {/* Title & Select Trip */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white font-sans">Budget Manager</h1>
+          <h1 className="text-3xl font-bold font-sans" style={{ color: "var(--text-heading)" }}>Budget Manager</h1>
           <p className="text-slate-500 mt-1">Track travel spending patterns across your trips.</p>
         </div>
         <div className="flex items-center space-x-3 bg-white border border-sky-100 px-4 py-2.5 rounded-xl">
@@ -110,10 +110,10 @@ export default function Budget() {
           <select
             value={selectedTripId}
             onChange={(e) => setSelectedTripId(e.target.value)}
-            className="bg-transparent text-sm font-semibold text-white outline-none cursor-pointer"
+            className="bg-transparent text-sm font-semibold text-slate-800 outline-none cursor-pointer"
           >
             {trips.map((trip) => (
-              <option key={trip._id} value={trip._id} className="bg-white/80 text-white">
+              <option key={trip._id} value={trip._id} className="bg-white text-slate-800">
                 {trip.destination} ({trip.country})
               </option>
             ))}
@@ -146,12 +146,12 @@ export default function Budget() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white backdrop-blur border border-sky-100 rounded-2xl p-6 shadow-lg">
               <span className="text-xs font-semibold text-slate-400 uppercase">Total Budget</span>
-              <h3 className="text-2xl font-bold text-white mt-2">${totalBudget.toLocaleString()}</h3>
+              <h3 className="text-2xl font-bold text-slate-800 mt-2">${totalBudget.toLocaleString()}</h3>
             </div>
             
             <div className="bg-white backdrop-blur border border-sky-100 rounded-2xl p-6 shadow-lg">
               <span className="text-xs font-semibold text-slate-400 uppercase">Spent Amount</span>
-              <h3 className={`text-2xl font-bold mt-2 ${totalSpent > totalBudget ? "text-red-400" : "text-white"}`}>
+              <h3 className={`text-2xl font-bold mt-2 ${totalSpent > totalBudget ? "text-red-400" : "text-slate-800"}`}>
                 ${totalSpent.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </h3>
             </div>
@@ -166,7 +166,7 @@ export default function Budget() {
 
           {/* Quick breakdown of Trip Info */}
           <div className="bg-white backdrop-blur border border-sky-100 rounded-3xl p-6 shadow-lg space-y-4">
-            <h3 className="text-lg font-bold text-white mb-2">Trip Specifications</h3>
+            <h3 className="text-lg font-bold text-slate-800 mb-2">Trip Specifications</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="flex items-center space-x-3 bg-white/30 p-4 border border-sky-100 rounded-2xl">
                 <MapPin className="w-5 h-5 text-blue-400" />
@@ -197,7 +197,7 @@ export default function Budget() {
 
         {/* Circular Progress Side Card */}
         <div className="bg-white backdrop-blur border border-sky-100 rounded-3xl p-8 shadow-xl flex flex-col items-center justify-center text-center">
-          <h3 className="text-lg font-bold text-white mb-6">Budget Utilization</h3>
+          <h3 className="text-lg font-bold text-slate-800 mb-6">Budget Utilization</h3>
           
           <div className="relative w-40 h-40">
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">

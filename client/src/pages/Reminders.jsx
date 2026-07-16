@@ -162,7 +162,7 @@ export default function Reminders() {
               }`}
             >
               <div className="flex justify-between items-start mb-3">
-                <div className="flex items-center space-x-3">
+                 <div className="flex items-center space-x-3">
                   <button 
                     onClick={() => toggleComplete(reminder._id, reminder.completed)}
                     className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors ${
@@ -171,7 +171,7 @@ export default function Reminders() {
                   >
                     {reminder.completed && <CheckCircle className="w-4 h-4" />}
                   </button>
-                  <h3 className={`font-semibold text-lg ${reminder.completed ? "line-through text-slate-400" : "text-white"}`}>{reminder.title}</h3>
+                  <h3 className={`font-semibold text-lg ${reminder.completed ? "line-through text-slate-400" : "text-slate-800"}`}>{reminder.title}</h3>
                 </div>
                 <button onClick={() => handleDelete(reminder._id)} className="text-slate-400 hover:text-red-400">
                   <Trash2 className="w-4 h-4" />
@@ -222,45 +222,45 @@ export default function Reminders() {
             <form onSubmit={handleSave} className="p-6 space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Title *</label>
-                <input type="text" required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                <input type="text" required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
               </div>
               
               <div>
                 <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Description</label>
-                <textarea rows="2" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"></textarea>
+                <textarea rows="2" value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"></textarea>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Date *</label>
-                  <input type="date" required value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 [color-scheme:dark]" />
+                  <input type="date" required value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Time</label>
-                  <input type="time" value={formData.time} onChange={e => setFormData({...formData, time: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 [color-scheme:dark]" />
+                  <input type="time" value={formData.time} onChange={e => setFormData({...formData, time: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Type</label>
-                  <select value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                    {types.map(t => <option key={t} value={t}>{t}</option>)}
+                  <select value={formData.type} onChange={e => setFormData({...formData, type: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    {types.map(t => <option key={t} value={t} className="text-slate-800">{t}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Priority</label>
-                  <select value={formData.priority} onChange={e => setFormData({...formData, priority: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                    {priorities.map(p => <option key={p} value={p}>{p}</option>)}
+                  <select value={formData.priority} onChange={e => setFormData({...formData, priority: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    {priorities.map(p => <option key={p} value={p} className="text-slate-800">{p}</option>)}
                   </select>
                 </div>
               </div>
               
               <div>
                 <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Associated Trip</label>
-                <select value={formData.tripId} onChange={e => setFormData({...formData, tripId: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                  <option value="">-- No trip --</option>
-                  {trips.map(t => <option key={t._id} value={t._id}>{t.destination}</option>)}
+                <select value={formData.tripId} onChange={e => setFormData({...formData, tripId: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                  <option value="" className="text-slate-800">-- No trip --</option>
+                  {trips.map(t => <option key={t._id} value={t._id} className="text-slate-800">{t.destination}</option>)}
                 </select>
               </div>
 

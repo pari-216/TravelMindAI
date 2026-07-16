@@ -180,7 +180,7 @@ export default function Notifications() {
                     {/* Text */}
                     <div className="space-y-0.5">
                       <div className="flex items-center gap-2">
-                        <h4 className={`text-sm font-bold ${item.read ? "text-slate-600" : "text-white"}`}>
+                        <h4 className={`text-sm font-bold ${item.read ? "text-slate-600" : "text-slate-800"}`}>
                           {item.title}
                         </h4>
                         {!item.read && (

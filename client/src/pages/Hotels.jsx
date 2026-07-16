@@ -295,7 +295,7 @@ export default function Hotels() {
                   onChange={(e) => setDestination(e.target.value)}
                   placeholder="e.g. Paris, Tokyo, New York..."
                   required
-                  className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-white focus:outline-none focus:border-blue-500 transition placeholder-gray-600"
+                  className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-slate-800 focus:outline-none focus:border-blue-500 transition placeholder-gray-400"
                 />
               </div>
 
@@ -310,7 +310,7 @@ export default function Hotels() {
                   max="20"
                   value={guests}
                   onChange={(e) => setGuests(e.target.value)}
-                  className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-white focus:outline-none focus:border-blue-500 transition"
+                  className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-slate-800 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
 
@@ -323,7 +323,7 @@ export default function Hotels() {
                   type="date"
                   value={checkIn}
                   onChange={(e) => setCheckIn(e.target.value)}
-                  className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-white focus:outline-none focus:border-blue-500 transition"
+                  className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-slate-800 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
 
@@ -336,7 +336,7 @@ export default function Hotels() {
                   type="date"
                   value={checkOut}
                   onChange={(e) => setCheckOut(e.target.value)}
-                  className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-white focus:outline-none focus:border-blue-500 transition"
+                  className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-slate-800 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
 
@@ -348,9 +348,9 @@ export default function Hotels() {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-white focus:outline-none focus:border-blue-500 transition cursor-pointer"
+                  className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-slate-800 focus:outline-none focus:border-blue-500 transition cursor-pointer"
                 >
-                  {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                  {CATEGORIES.map((c) => <option key={c} value={c} className="text-slate-800">{c}</option>)}
                 </select>
               </div>
             </div>

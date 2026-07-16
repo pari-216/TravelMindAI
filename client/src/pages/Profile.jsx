@@ -233,7 +233,7 @@ export default function Profile() {
           ].map((stat) => (
             <div key={stat.label} className="bg-white border border-sky-100 rounded-2xl p-5 text-center shadow-md">
               <stat.icon className={`w-7 h-7 mx-auto mb-2 ${stat.color}`} />
-              <p className="text-2xl font-black text-white">{stat.value}</p>
+              <p className="text-2xl font-black text-slate-800">{stat.value}</p>
               <p className="text-[10px] text-slate-400 mt-0.5 font-bold uppercase tracking-wider">{stat.label}</p>
             </div>
           ))}
@@ -267,7 +267,7 @@ export default function Profile() {
                   value={name}
                   onChange={e => setName(e.target.value)}
                   required
-                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-white focus:outline-none focus:border-blue-500 transition"
+                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
               <div className="space-y-1.5">
@@ -277,7 +277,7 @@ export default function Profile() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   required
-                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-white focus:outline-none focus:border-blue-500 transition"
+                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
               <div className="space-y-1.5">
@@ -287,7 +287,7 @@ export default function Profile() {
                   value={prefs.phone}
                   onChange={e => setPrefs({ ...prefs, phone: e.target.value })}
                   placeholder="+1 555-0199"
-                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-white focus:outline-none focus:border-blue-500 transition"
+                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
               <div className="space-y-1.5">
@@ -297,7 +297,7 @@ export default function Profile() {
                   value={prefs.nationality}
                   onChange={e => setPrefs({ ...prefs, nationality: e.target.value })}
                   placeholder="e.g. Canadian"
-                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-white focus:outline-none focus:border-blue-500 transition"
+                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
             </div>
@@ -309,10 +309,10 @@ export default function Profile() {
                 <select
                   value={prefs.travelStyle}
                   onChange={e => setPrefs({ ...prefs, travelStyle: e.target.value })}
-                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-blue-500 transition cursor-pointer"
+                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800 focus:outline-none focus:border-blue-500 transition cursor-pointer"
                 >
                   {["Adventure", "Luxury", "Budget", "Business", "Family", "Solo", "Couple", "Cultural"].map(t => (
-                    <option key={t} value={t}>{t}</option>
+                    <option key={t} value={t} className="text-slate-800">{t}</option>
                   ))}
                 </select>
               </div>
@@ -321,10 +321,10 @@ export default function Profile() {
                 <select
                   value={prefs.budgetPreference}
                   onChange={e => setPrefs({ ...prefs, budgetPreference: e.target.value })}
-                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-blue-500 transition cursor-pointer"
+                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800 focus:outline-none focus:border-blue-500 transition cursor-pointer"
                 >
                   {["Budget", "Moderate", "Luxury"].map(b => (
-                    <option key={b} value={b}>{b}</option>
+                    <option key={b} value={b} className="text-slate-800">{b}</option>
                   ))}
                 </select>
               </div>
@@ -335,7 +335,7 @@ export default function Profile() {
                   value={prefs.currency}
                   onChange={e => setPrefs({ ...prefs, currency: e.target.value.toUpperCase().slice(0, 3) })}
                   maxLength={3}
-                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-white focus:outline-none focus:border-blue-500 transition"
+                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500 transition"
                 />
               </div>
             </div>
@@ -346,7 +346,7 @@ export default function Profile() {
                 value={prefs.bio}
                 onChange={e => setPrefs({ ...prefs, bio: e.target.value })}
                 placeholder="Share a bit about your travel plans or style..."
-                className="w-full h-20 bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-blue-500 resize-none"
+                className="w-full h-20 bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800 focus:outline-none focus:border-blue-500 resize-none"
               />
             </div>
 
@@ -368,7 +368,7 @@ export default function Profile() {
                     value={newActivity}
                     onChange={e => setNewActivity(e.target.value)}
                     placeholder="e.g. Hiking"
-                    className="flex-1 bg-white/80 border border-sky-100 rounded-xl py-1.5 px-3 text-xs text-white focus:outline-none"
+                    className="flex-1 bg-white/80 border border-sky-100 rounded-xl py-1.5 px-3 text-xs text-slate-800 focus:outline-none"
                   />
                   <button
                     type="button"
@@ -378,7 +378,7 @@ export default function Profile() {
                         setNewActivity("");
                       }
                     }}
-                    className="px-3 py-1.5 bg-white hover:bg-sky-100 text-white rounded-xl text-xs font-bold transition cursor-pointer"
+                    className="px-3 py-1.5 bg-white hover:bg-sky-100 text-slate-700 rounded-xl text-xs font-bold transition cursor-pointer border border-sky-100"
                   >
                     Add
                   </button>
@@ -401,7 +401,7 @@ export default function Profile() {
                     value={newFood}
                     onChange={e => setNewFood(e.target.value)}
                     placeholder="e.g. Vegetarian"
-                    className="flex-1 bg-white/80 border border-sky-100 rounded-xl py-1.5 px-3 text-xs text-white focus:outline-none"
+                    className="flex-1 bg-white/80 border border-sky-100 rounded-xl py-1.5 px-3 text-xs text-slate-800 focus:outline-none"
                   />
                   <button
                     type="button"
@@ -411,7 +411,7 @@ export default function Profile() {
                         setNewFood("");
                       }
                     }}
-                    className="px-3 py-1.5 bg-white hover:bg-sky-100 text-white rounded-xl text-xs font-bold transition cursor-pointer"
+                    className="px-3 py-1.5 bg-white hover:bg-sky-100 text-slate-700 rounded-xl text-xs font-bold transition cursor-pointer border border-sky-100"
                   >
                     Add
                   </button>
@@ -429,7 +429,7 @@ export default function Profile() {
                     type="text"
                     value={prefs.emergencyContact?.name || ""}
                     onChange={e => setPrefs({ ...prefs, emergencyContact: { ...prefs.emergencyContact, name: e.target.value } })}
-                    className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white focus:outline-none"
+                    className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800 focus:outline-none"
                   />
                 </div>
                 <div className="space-y-1">
@@ -438,7 +438,7 @@ export default function Profile() {
                     type="text"
                     value={prefs.emergencyContact?.phone || ""}
                     onChange={e => setPrefs({ ...prefs, emergencyContact: { ...prefs.emergencyContact, phone: e.target.value } })}
-                    className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white focus:outline-none"
+                    className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800 focus:outline-none"
                   />
                 </div>
                 <div className="space-y-1">
@@ -447,7 +447,7 @@ export default function Profile() {
                     type="text"
                     value={prefs.emergencyContact?.relation || ""}
                     onChange={e => setPrefs({ ...prefs, emergencyContact: { ...prefs.emergencyContact, relation: e.target.value } })}
-                    className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white focus:outline-none"
+                    className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800 focus:outline-none"
                   />
                 </div>
               </div>
@@ -464,21 +464,21 @@ export default function Profile() {
                   value={currentPassword}
                   onChange={e => setCurrentPassword(e.target.value)}
                   placeholder="Current Password"
-                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-white focus:outline-none focus:border-amber-500 transition"
+                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-slate-800 focus:outline-none focus:border-amber-500 transition"
                 />
                 <input
                   type="password"
                   value={newPassword}
                   onChange={e => setNewPassword(e.target.value)}
                   placeholder="New Password"
-                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-white focus:outline-none focus:border-amber-500 transition"
+                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-slate-800 focus:outline-none focus:border-amber-500 transition"
                 />
                 <input
                   type="password"
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
                   placeholder="Confirm New Password"
-                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-white focus:outline-none focus:border-amber-500 transition"
+                  className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3.5 text-xs text-slate-800 focus:outline-none focus:border-amber-500 transition"
                 />
               </div>
             </div>
@@ -520,19 +520,19 @@ export default function Profile() {
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Travel Style</span>
-                    <span className="font-semibold text-white">{prefs.travelStyle}</span>
+                    <span className="font-semibold text-slate-800">{prefs.travelStyle}</span>
                   </div>
                   <div>
                     <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Budget Category</span>
-                    <span className="font-semibold text-white">{prefs.budgetPreference}</span>
+                    <span className="font-semibold text-slate-800">{prefs.budgetPreference}</span>
                   </div>
                   <div>
                     <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Currency</span>
-                    <span className="font-semibold text-white">{prefs.currency}</span>
+                    <span className="font-semibold text-slate-800">{prefs.currency}</span>
                   </div>
                   <div>
                     <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">Language</span>
-                    <span className="font-semibold text-white">{prefs.language}</span>
+                    <span className="font-semibold text-slate-800">{prefs.language}</span>
                   </div>
                 </div>
 
@@ -597,11 +597,11 @@ export default function Profile() {
                   <div className="space-y-2 text-xs">
                     <div>
                       <p className="text-[9px] text-slate-400 font-bold">NAME</p>
-                      <p className="text-white font-bold">{prefs.emergencyContact.name}</p>
+                      <p className="text-slate-800 font-bold">{prefs.emergencyContact.name}</p>
                     </div>
                     <div>
                       <p className="text-[9px] text-slate-400">PHONE</p>
-                      <p className="text-white font-bold">{prefs.emergencyContact.phone}</p>
+                      <p className="text-slate-800 font-bold">{prefs.emergencyContact.phone}</p>
                     </div>
                     {prefs.emergencyContact.relation && (
                       <div>

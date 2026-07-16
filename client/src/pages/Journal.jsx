@@ -247,38 +247,38 @@ export default function Journal() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Title *</label>
-                  <input type="text" required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                  <input type="text" required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Associated Trip</label>
-                  <select value={formData.tripId} onChange={e => setFormData({...formData, tripId: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                    <option value="">-- No trip --</option>
-                    {trips.map(t => <option key={t._id} value={t._id}>{t.destination}</option>)}
+                  <select value={formData.tripId} onChange={e => setFormData({...formData, tripId: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    <option value="" className="text-slate-800">-- No trip --</option>
+                    {trips.map(t => <option key={t._id} value={t._id} className="text-slate-800">{t.destination}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Date *</label>
-                  <input type="date" required value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 [color-scheme:dark]" />
+                  <input type="date" required value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Location</label>
-                  <input type="text" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                  <input type="text" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Mood</label>
-                  <select value={formData.mood} onChange={e => setFormData({...formData, mood: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                    {moods.map(m => <option key={m} value={m}>{m}</option>)}
+                  <select value={formData.mood} onChange={e => setFormData({...formData, mood: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    {moods.map(m => <option key={m} value={m} className="text-slate-800">{m}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Tags (comma separated)</label>
-                  <input type="text" value={formData.tags} placeholder="e.g. beach, hiking, family" onChange={e => setFormData({...formData, tags: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                  <input type="text" value={formData.tags} placeholder="e.g. beach, hiking, family" onChange={e => setFormData({...formData, tags: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                 </div>
               </div>
               
               <div>
                 <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Journal Content *</label>
-                <textarea required rows="8" value={formData.content} onChange={e => setFormData({...formData, content: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"></textarea>
+                <textarea required rows="8" value={formData.content} onChange={e => setFormData({...formData, content: e.target.value})} className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"></textarea>
               </div>
 
               <div className="flex justify-end pt-4 border-t border-sky-100">

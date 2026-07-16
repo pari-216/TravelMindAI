@@ -260,7 +260,7 @@ export default function Settings() {
             {activeTab === "appearance" && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <h3 className="text-base font-bold flex items-center gap-2" style={{ color: "var(--text-heading)" }}>
                     <Palette className="w-5 h-5 text-blue-400" /> Theme & Accent Styling
                   </h3>
                   <p className="text-xs text-slate-400 mt-1">Changes are applied immediately across all dashboards, maps, and inputs.</p>
@@ -323,7 +323,7 @@ export default function Settings() {
             {activeTab === "dashboard" && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <h3 className="text-base font-bold flex items-center gap-2" style={{ color: "var(--text-heading)" }}>
                     <LayoutGrid className="w-5 h-5 text-blue-400" /> Dashboard Customization
                   </h3>
                   <p className="text-xs text-slate-400 mt-1">Show, hide, and reorder widgets dynamically. Drag-and-drop simulated via reorder controls.</p>
@@ -372,7 +372,7 @@ export default function Settings() {
             {activeTab === "notifications" && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <h3 className="text-base font-bold flex items-center gap-2" style={{ color: "var(--text-heading)" }}>
                     <Bell className="w-5 h-5 text-blue-400" /> Notification Channels
                   </h3>
                   <p className="text-xs text-slate-400 mt-1">Configure email alerts and browser-based system push notifications.</p>
@@ -417,7 +417,7 @@ export default function Settings() {
             {activeTab === "preferences" && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <h3 className="text-base font-bold flex items-center gap-2" style={{ color: "var(--text-heading)" }}>
                     <Compass className="w-5 h-5 text-blue-400" /> Default Travel Preferences
                   </h3>
                   <p className="text-xs text-slate-400 mt-1">Customize units and formats used for itinerary generators and advisor logs.</p>
@@ -432,7 +432,7 @@ export default function Settings() {
                       value={settings.travel?.currency}
                       onChange={(e) => updateSettingNode("travel", "currency", e.target.value.toUpperCase().slice(0, 3))}
                       maxLength={3}
-                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white"
+                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800"
                     />
                   </div>
 
@@ -442,9 +442,9 @@ export default function Settings() {
                     <select
                       value={settings.travel?.dateFormat}
                       onChange={(e) => updateSettingNode("travel", "dateFormat", e.target.value)}
-                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white"
+                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800"
                     >
-                      {DATE_FORMATS.map(f => <option key={f} value={f}>{f}</option>)}
+                      {DATE_FORMATS.map(f => <option key={f} value={f} className="text-slate-800">{f}</option>)}
                     </select>
                   </div>
 
@@ -454,10 +454,10 @@ export default function Settings() {
                     <select
                       value={settings.travel?.distanceUnit}
                       onChange={(e) => updateSettingNode("travel", "distanceUnit", e.target.value)}
-                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white"
+                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800"
                     >
-                      <option value="km">Kilometers (km)</option>
-                      <option value="miles">Miles (mi)</option>
+                      <option value="km" className="text-slate-800">Kilometers (km)</option>
+                      <option value="miles" className="text-slate-800">Miles (mi)</option>
                     </select>
                   </div>
 
@@ -467,10 +467,10 @@ export default function Settings() {
                     <select
                       value={settings.travel?.tempUnit}
                       onChange={(e) => updateSettingNode("travel", "tempUnit", e.target.value)}
-                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white"
+                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800"
                     >
-                      <option value="celsius">Celsius (°C)</option>
-                      <option value="fahrenheit">Fahrenheit (°F)</option>
+                      <option value="celsius" className="text-slate-800">Celsius (°C)</option>
+                      <option value="fahrenheit" className="text-slate-800">Fahrenheit (°F)</option>
                     </select>
                   </div>
                 </div>
@@ -481,7 +481,7 @@ export default function Settings() {
             {activeTab === "account" && (
               <form onSubmit={handleAccountSave} className="space-y-6">
                 <div>
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <h3 className="text-base font-bold flex items-center gap-2" style={{ color: "var(--text-heading)" }}>
                     <User className="w-5 h-5 text-blue-400" /> Credentials & Profiles
                   </h3>
                   <p className="text-xs text-slate-400 mt-1">Manage passwords, email validations, and emergency logs.</p>
@@ -492,7 +492,7 @@ export default function Settings() {
                   {avatar ? (
                     <img src={avatar} alt="Profile" className="w-16 h-16 rounded-2xl object-cover" />
                   ) : (
-                    <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-xl font-bold text-white">U</div>
+                    <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-xl font-bold text-slate-800 border border-sky-100">U</div>
                   )}
                   <label className="px-4 py-2 bg-white text-slate-600 rounded-xl text-xs font-bold transition hover:bg-sky-100 cursor-pointer">
                     Change Picture
@@ -508,7 +508,7 @@ export default function Settings() {
                       required
                       value={email}
                       onChange={e => setEmail(e.target.value)}
-                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2.5 px-3.5 text-xs text-white"
+                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2.5 px-3.5 text-xs text-slate-800"
                     />
                   </div>
                   <div className="space-y-1">
@@ -517,7 +517,7 @@ export default function Settings() {
                       type="text"
                       value={phone}
                       onChange={e => setPhone(e.target.value)}
-                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2.5 px-3.5 text-xs text-white"
+                      className="w-full bg-white/80 border border-sky-100 rounded-xl py-2.5 px-3.5 text-xs text-slate-800"
                     />
                   </div>
                 </div>
@@ -531,21 +531,21 @@ export default function Settings() {
                       placeholder="Current Password"
                       value={currentPassword}
                       onChange={e => setCurrentPassword(e.target.value)}
-                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white"
+                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800"
                     />
                     <input
                       type="password"
                       placeholder="New Password"
                       value={newPassword}
                       onChange={e => setNewPassword(e.target.value)}
-                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white"
+                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800"
                     />
                     <input
                       type="password"
                       placeholder="Confirm New Password"
                       value={confirmPassword}
                       onChange={e => setConfirmPassword(e.target.value)}
-                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white"
+                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800"
                     />
                   </div>
                 </div>
@@ -559,21 +559,21 @@ export default function Settings() {
                       placeholder="Name"
                       value={emergencyContact.name}
                       onChange={e => setEmergencyContact({ ...emergencyContact, name: e.target.value })}
-                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white"
+                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800"
                     />
                     <input
                       type="text"
                       placeholder="Phone"
                       value={emergencyContact.phone}
                       onChange={e => setEmergencyContact({ ...emergencyContact, phone: e.target.value })}
-                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white"
+                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800"
                     />
                     <input
                       type="text"
                       placeholder="Relation"
                       value={emergencyContact.relation}
                       onChange={e => setEmergencyContact({ ...emergencyContact, relation: e.target.value })}
-                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-white"
+                      className="bg-white/80 border border-sky-100 rounded-xl py-2 px-3 text-xs text-slate-800"
                     />
                   </div>
                 </div>
@@ -592,7 +592,7 @@ export default function Settings() {
             {activeTab === "accessibility" && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <h3 className="text-base font-bold flex items-center gap-2" style={{ color: "var(--text-heading)" }}>
                     <AccessibilityIcon className="w-5 h-5 text-blue-400" /> Accessibility Adjustments
                   </h3>
                   <p className="text-xs text-slate-400 mt-1">Configure layout scale size and screen optimizations.</p>
@@ -647,7 +647,7 @@ export default function Settings() {
             {activeTab === "privacy" && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <h3 className="text-base font-bold flex items-center gap-2" style={{ color: "var(--text-heading)" }}>
                     <Shield className="w-5 h-5 text-blue-400" /> Privacy & Danger Zone
                   </h3>
                   <p className="text-xs text-slate-400 mt-1">Export your travel metadata files or permanently wipe your account history.</p>
@@ -716,7 +716,7 @@ export default function Settings() {
             {activeTab === "application" && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <h3 className="text-base font-bold flex items-center gap-2" style={{ color: "var(--text-heading)" }}>
                     <Info className="w-5 h-5 text-blue-400" /> Application Details
                   </h3>
                   <p className="text-xs text-slate-400 mt-1">System status and platform policy information.</p>
@@ -726,11 +726,11 @@ export default function Settings() {
                   <div className="grid grid-cols-2 gap-4 text-xs">
                     <div className="p-3 bg-white/80/30 border border-sky-100 rounded-xl">
                       <span className="text-[9px] text-slate-400 font-bold block uppercase tracking-wider">VERSION</span>
-                      <span className="font-semibold text-white">v1.0.0 (Production)</span>
+                      <span className="font-semibold text-slate-800">v1.0.0 (Production)</span>
                     </div>
                     <div className="p-3 bg-white/80/30 border border-sky-100 rounded-xl">
                       <span className="text-[9px] text-slate-400 font-bold block uppercase tracking-wider">ENVIRONMENT</span>
-                      <span className="font-semibold text-white">Production Stable</span>
+                      <span className="font-semibold text-slate-800">Production Stable</span>
                     </div>
                   </div>
 

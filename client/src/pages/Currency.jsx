@@ -109,7 +109,7 @@ export default function Currency() {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="100"
-                className="w-full bg-white/80/60 border border-sky-100 rounded-2xl py-3 pl-4 pr-10 text-white font-semibold focus:outline-none focus:border-blue-500 transition-colors"
+                className="w-full bg-white/80/60 border border-sky-100 rounded-2xl py-3 pl-4 pr-10 text-slate-800 font-semibold focus:outline-none focus:border-blue-500 transition-colors"
               />
               <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">
                 {CURRENCIES.find(c => c.code === fromCurrency)?.symbol || "$"}
@@ -123,7 +123,7 @@ export default function Currency() {
             <select
               value={fromCurrency}
               onChange={(e) => setFromCurrency(e.target.value)}
-              className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-white font-medium focus:outline-none focus:border-blue-500 transition-colors cursor-pointer"
+              className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-slate-800 font-medium focus:outline-none focus:border-blue-500 transition-colors cursor-pointer"
             >
               {CURRENCIES.map((c) => (
                 <option key={c.code} value={c.code}>
@@ -151,7 +151,7 @@ export default function Currency() {
             <select
               value={toCurrency}
               onChange={(e) => setToCurrency(e.target.value)}
-              className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-white font-medium focus:outline-none focus:border-blue-500 transition-colors cursor-pointer"
+              className="w-full bg-white/80 border border-sky-100 rounded-2xl py-3 px-4 text-slate-800 font-medium focus:outline-none focus:border-blue-500 transition-colors cursor-pointer"
             >
               {CURRENCIES.map((c) => (
                 <option key={c.code} value={c.code}>
@@ -175,7 +175,7 @@ export default function Currency() {
                 <p className="text-sm text-slate-500 font-medium">
                   {amount} {fromCurrency} =
                 </p>
-                <h2 className="text-3xl font-bold text-white mt-1">
+                <h2 className="text-3xl font-bold text-slate-800 mt-1">
                   {convertedAmount?.toLocaleString()} {toCurrency}
                 </h2>
               </div>
@@ -234,7 +234,7 @@ export default function Currency() {
                     <span className="font-bold text-slate-600">{curr.code}</span>
                     <span className="text-xs text-slate-400 font-medium truncate ml-1">{curr.name}</span>
                   </div>
-                  <div className="text-lg font-bold text-white mt-2">
+                  <div className="text-lg font-bold text-slate-800 mt-2">
                     {curr.symbol} {exchangeRate.toLocaleString()}
                   </div>
                 </div>

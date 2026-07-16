@@ -159,20 +159,20 @@ export default function Packing() {
             <div>
               <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Select Trip or Enter Destination *</label>
               <div className="flex space-x-2">
-                <select 
+                 <select 
                   value={selectedTrip}
                   onChange={(e) => { setSelectedTrip(e.target.value); setDestName(""); }}
-                  className="w-1/2 bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-1/2 bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 >
-                  <option value="">-- Select Trip --</option>
-                  {trips.map(t => <option key={t._id} value={t._id}>{t.destination}</option>)}
+                  <option value="" className="text-slate-800">-- Select Trip --</option>
+                  {trips.map(t => <option key={t._id} value={t._id} className="text-slate-800">{t.destination}</option>)}
                 </select>
                 <input 
                   type="text" 
                   placeholder="Or enter destination..."
                   value={destName}
                   onChange={(e) => { setDestName(e.target.value); setSelectedTrip(""); }}
-                  className="w-1/2 bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                  className="w-1/2 bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -181,13 +181,13 @@ export default function Packing() {
               <select 
                 value={travelStyle}
                 onChange={(e) => setTravelStyle(e.target.value)}
-                className="w-full bg-white/80 border border-sky-100 text-white px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="w-full bg-white/80 border border-sky-100 text-slate-800 px-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               >
-                <option value="Adventure">Adventure</option>
-                <option value="Leisure">Leisure</option>
-                <option value="Business">Business</option>
-                <option value="Luxury">Luxury</option>
-                <option value="Backpacking">Backpacking</option>
+                <option value="Adventure" className="text-slate-800">Adventure</option>
+                <option value="Leisure" className="text-slate-800">Leisure</option>
+                <option value="Business" className="text-slate-800">Business</option>
+                <option value="Luxury" className="text-slate-800">Luxury</option>
+                <option value="Backpacking" className="text-slate-800">Backpacking</option>
               </select>
             </div>
           </div>
@@ -316,7 +316,7 @@ export default function Packing() {
                     placeholder="Search items..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-white/80 border border-sky-100 text-white pl-10 pr-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    className="w-full bg-white/80 border border-sky-100 text-slate-800 pl-10 pr-4 py-2 rounded-xl focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
                   />
                   <Search className="w-5 h-5 text-slate-400 absolute left-3 top-2.5" />
                 </div>
@@ -363,7 +363,7 @@ export default function Packing() {
                           {item.packed && <CheckCircle className="w-4 h-4 text-gray-900" />}
                         </button>
                         <div>
-                          <div className={`font-medium text-lg ${item.packed ? "text-slate-500 line-through" : "text-white"}`}>
+                          <div className={`font-medium text-lg ${item.packed ? "text-slate-500 line-through" : "text-slate-800"}`}>
                             {item.name}
                             {item.quantity > 1 && <span className="ml-2 text-xs text-slate-400 bg-white px-2 py-0.5 rounded-full">x{item.quantity}</span>}
                           </div>

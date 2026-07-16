@@ -146,7 +146,7 @@ export default function ShareTrip() {
             
             {/* Itinerary */}
             <section className="bg-white/30 border border-sky-100 rounded-3xl p-6 md:p-8 space-y-6">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2 border-b border-sky-100 pb-4">
+              <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2 border-b border-sky-100 pb-4">
                 <Clock className="w-5 h-5 text-blue-400" /> Daily Itinerary
               </h2>
 
@@ -198,7 +198,7 @@ export default function ShareTrip() {
 
             {/* Travel Journal Memory Snippets */}
             <section className="bg-white/30 border border-sky-100 rounded-3xl p-6 md:p-8 space-y-6">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2 border-b border-sky-100 pb-4">
+              <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2 border-b border-sky-100 pb-4">
                 <BookOpen className="w-5 h-5 text-purple-400" /> Travel Journal memories
               </h2>
 
@@ -239,7 +239,7 @@ export default function ShareTrip() {
             
             {/* Notes */}
             <section className="bg-white/30 border border-sky-100 rounded-3xl p-6 space-y-4">
-              <h3 className="font-bold text-white text-lg">Trip Notes</h3>
+              <h3 className="font-bold text-slate-800 text-lg">Trip Notes</h3>
               <p className="text-sm text-slate-500 leading-relaxed whitespace-pre-wrap">
                 {trip.notes || "No notes shareable for this trip."}
               </p>
@@ -247,7 +247,7 @@ export default function ShareTrip() {
 
             {/* Expenses Summary */}
             <section className="bg-white/30 border border-sky-100 rounded-3xl p-6 space-y-4">
-              <h3 className="font-bold text-white text-lg flex items-center gap-2">
+              <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
                 <Receipt className="w-5 h-5 text-emerald-400" /> Expenses Summary
               </h3>
 
@@ -284,7 +284,7 @@ export default function ShareTrip() {
 
             {/* Packing Checklist Progress */}
             <section className="bg-white/30 border border-sky-100 rounded-3xl p-6 space-y-4">
-              <h3 className="font-bold text-white text-lg flex items-center gap-2">
+              <h3 className="font-bold text-slate-800 text-lg flex items-center gap-2">
                 <CheckSquare className="w-5 h-5 text-amber-400" /> Packing List Progress
               </h3>
 

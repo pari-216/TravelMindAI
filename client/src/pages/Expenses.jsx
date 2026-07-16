@@ -255,7 +255,7 @@ export default function Expenses() {
       {/* Title & Add Expense Button */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white font-sans">Expense Tracker</h1>
+          <h1 className="text-3xl font-bold font-sans" style={{ color: "var(--text-heading)" }}>Expense Tracker</h1>
           <p className="text-slate-500 mt-1">Track and manage travel costs across your itineraries.</p>
         </div>
         <button 
@@ -271,19 +271,19 @@ export default function Expenses() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white backdrop-blur border border-sky-100 rounded-2xl p-6 shadow-lg">
           <span className="text-xs font-semibold text-slate-400 uppercase">Total Spent</span>
-          <h3 className="text-2xl font-bold text-white mt-2">
+          <h3 className="text-2xl font-bold text-slate-800 mt-2">
             ${totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </h3>
         </div>
         <div className="bg-white backdrop-blur border border-sky-100 rounded-2xl p-6 shadow-lg">
           <span className="text-xs font-semibold text-slate-400 uppercase">Highest Expense Category</span>
-          <h3 className="text-2xl font-bold text-white mt-2">
+          <h3 className="text-2xl font-bold text-slate-800 mt-2">
             {highestCategory} {maxSpend > 0 ? `($${maxSpend.toLocaleString(undefined, { maximumFractionDigits: 0 })})` : ""}
           </h3>
         </div>
         <div className="bg-white backdrop-blur border border-sky-100 rounded-2xl p-6 shadow-lg">
           <span className="text-xs font-semibold text-slate-400 uppercase">Total Items Logged</span>
-          <h3 className="text-2xl font-bold text-white mt-2">{filteredExpenses.length}</h3>
+          <h3 className="text-2xl font-bold text-slate-800 mt-2">{filteredExpenses.length}</h3>
         </div>
       </div>
 
@@ -292,7 +292,7 @@ export default function Expenses() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Pie Chart */}
           <div className="bg-white border border-sky-100 rounded-3xl p-6 flex flex-col justify-between">
-            <h3 className="text-lg font-bold text-white mb-4">Category Spread</h3>
+            <h3 className="text-lg font-bold mb-4" style={{ color: "var(--text-heading)" }}>Category Spread</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -321,7 +321,7 @@ export default function Expenses() {
 
           {/* Bar Chart */}
           <div className="bg-white border border-sky-100 rounded-3xl p-6 flex flex-col justify-between">
-            <h3 className="text-lg font-bold text-white mb-4">Monthly Spending</h3>
+            <h3 className="text-lg font-bold mb-4" style={{ color: "var(--text-heading)" }}>Monthly Spending</h3>
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={barData}>
@@ -351,7 +351,7 @@ export default function Expenses() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search description..." 
-                className="pl-10 pr-4 py-2 bg-white border border-sky-100 rounded-xl text-sm text-white outline-none focus:border-purple-500 transition-colors w-full md:w-60"
+                className="pl-10 pr-4 py-2 bg-white border border-sky-100 rounded-xl text-sm text-slate-800 outline-none focus:border-purple-500 transition-colors w-full md:w-60"
               />
             </div>
 
@@ -359,11 +359,11 @@ export default function Expenses() {
             <select
               value={selectedTripFilter}
               onChange={(e) => setSelectedTripFilter(e.target.value)}
-              className="px-3 py-2 bg-white border border-sky-100 rounded-xl text-sm text-white outline-none focus:border-purple-500"
+              className="px-3 py-2 bg-white border border-sky-100 rounded-xl text-sm text-slate-800 outline-none focus:border-purple-500"
             >
               <option value="all">All Trips</option>
               {trips.map(t => (
-                <option key={t._id} value={t._id}>{t.destination}</option>
+                <option key={t._id} value={t._id} className="text-slate-800">{t.destination}</option>
               ))}
             </select>
 
@@ -371,11 +371,11 @@ export default function Expenses() {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-3 py-2 bg-white border border-sky-100 rounded-xl text-sm text-white outline-none focus:border-purple-500"
+              className="px-3 py-2 bg-white border border-sky-100 rounded-xl text-sm text-slate-800 outline-none focus:border-purple-500"
             >
               <option value="all">All Categories</option>
               {CATEGORIES.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
+                <option key={cat} value={cat} className="text-slate-800">{cat}</option>
               ))}
             </select>
 
@@ -383,7 +383,7 @@ export default function Expenses() {
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="px-3 py-2 bg-white border border-sky-100 rounded-xl text-sm text-white outline-none focus:border-purple-500"
+              className="px-3 py-2 bg-white border border-sky-100 rounded-xl text-sm text-slate-800 outline-none focus:border-purple-500"
             >
               <option value="all">All Time</option>
               <option value="today">Today</option>
@@ -401,14 +401,14 @@ export default function Expenses() {
               type="date" 
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="px-3 py-1.5 bg-white border border-sky-100 rounded-lg text-sm text-white" 
+              className="px-3 py-1.5 bg-white border border-sky-100 rounded-lg text-sm text-slate-800" 
             />
             <span className="text-slate-400">to</span>
             <input 
               type="date" 
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="px-3 py-1.5 bg-white border border-sky-100 rounded-lg text-sm text-white" 
+              className="px-3 py-1.5 bg-white border border-sky-100 rounded-lg text-sm text-slate-800" 
             />
           </div>
         )}
@@ -523,10 +523,10 @@ export default function Expenses() {
                     value={formData.trip}
                     onChange={handleFormChange}
                     required
-                    className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500"
+                    className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500"
                   >
                     {trips.map(t => (
-                      <option key={t._id} value={t._id}>{t.destination}</option>
+                      <option key={t._id} value={t._id} className="text-slate-800">{t.destination}</option>
                     ))}
                   </select>
                 </div>
@@ -539,10 +539,10 @@ export default function Expenses() {
                       value={formData.category}
                       onChange={handleFormChange}
                       required
-                      className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500"
+                      className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500"
                     >
                       {CATEGORIES.map(c => (
-                        <option key={c} value={c}>{c}</option>
+                        <option key={c} value={c} className="text-slate-800">{c}</option>
                       ))}
                     </select>
                   </div>
@@ -558,7 +558,7 @@ export default function Expenses() {
                       value={formData.amount}
                       onChange={handleFormChange}
                       required
-                      className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500"
+                      className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500"
                     />
                   </div>
                 </div>
@@ -572,7 +572,7 @@ export default function Expenses() {
                       value={formData.date}
                       onChange={handleFormChange}
                       required
-                      className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500"
+                      className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500"
                     />
                   </div>
 
@@ -583,10 +583,10 @@ export default function Expenses() {
                       value={formData.paymentMethod}
                       onChange={handleFormChange}
                       required
-                      className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500"
+                      className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500"
                     >
                       {PAYMENT_METHODS.map(p => (
-                        <option key={p} value={p}>{p}</option>
+                        <option key={p} value={p} className="text-slate-800">{p}</option>
                       ))}
                     </select>
                   </div>
@@ -599,7 +599,7 @@ export default function Expenses() {
                     name="description"
                     value={formData.description}
                     onChange={handleFormChange}
-                    className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-white outline-none focus:border-purple-500"
+                    className="w-full px-4 py-3 bg-white border border-sky-100 rounded-xl text-slate-800 outline-none focus:border-purple-500"
                     placeholder="e.g. Dinner at Cafe"
                   />
                 </div>

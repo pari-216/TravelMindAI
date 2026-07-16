@@ -479,7 +479,7 @@ export default function TripDetails() {
           <div className="bg-white backdrop-blur-xl border border-sky-100 rounded-3xl p-6 shadow-xl space-y-4">
             <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
               <div>
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
                   <MapIcon className="w-5 h-5 text-blue-400" /> Interactive Explorer Map
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">Explore restaurants, lodging, sights, and airports nearby.</p>
@@ -530,7 +530,7 @@ export default function TripDetails() {
 
           {/* Daily Itinerary Timeline */}
           <div className="bg-white backdrop-blur-xl border border-sky-100 rounded-3xl p-6 md:p-8 shadow-xl space-y-6">
-            <h3 className="text-xl font-bold text-white border-b border-sky-100/80 pb-4 flex items-center gap-2">
+            <h3 className="text-xl font-bold text-slate-800 border-b border-sky-100/80 pb-4 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-yellow-400" /> AI Planned Itinerary
             </h3>
             {itinerary && itinerary.days && itinerary.days.length > 0 ? (
@@ -580,7 +580,7 @@ export default function TripDetails() {
 
           {/* Notes */}
           <div className="bg-white backdrop-blur-xl border border-sky-100 rounded-3xl p-6 shadow-xl">
-            <h3 className="text-lg font-bold text-white mb-3">Trip Notes</h3>
+            <h3 className="text-lg font-bold text-slate-800 mb-3">Trip Notes</h3>
             <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">{trip.notes || "No notes entered."}</p>
           </div>
 
@@ -591,7 +591,7 @@ export default function TripDetails() {
           
           {/* Live Weather Widget */}
           <div className="bg-white backdrop-blur-xl border border-sky-100 rounded-3xl p-6 shadow-xl space-y-5">
-            <h3 className="text-base font-bold text-white flex items-center gap-1.5">
+            <h3 className="text-base font-bold text-slate-800 flex items-center gap-1.5">
               <Sun className="w-5 h-5 text-yellow-400 animate-spin-slow" /> Destination Live Weather
             </h3>
 
@@ -714,7 +714,7 @@ export default function TripDetails() {
             </button>
 
             <div>
-              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+              <h3 className="text-xl font-bold text-slate-800 flex items-center gap-2">
                 <Share2 className="w-5 h-5 text-blue-400" /> Share Trip Itinerary
               </h3>
               <p className="text-xs text-slate-500 mt-1">Anyone with this link can view the read-only trip overview in Viewer Mode.</p>
@@ -744,7 +744,7 @@ export default function TripDetails() {
             <div className="flex gap-2">
               <a
                 href={`mailto:?subject=Travel Itinerary for ${trip.destination}&body=Hey, checkout my travel itinerary here: ${shareUrl}`}
-                className="flex-1 py-3 bg-white hover:bg-sky-100 text-white text-xs font-bold rounded-xl border border-sky-100 text-center flex items-center justify-center gap-1.5 transition"
+                className="flex-1 py-3 bg-white hover:bg-sky-100 text-slate-700 text-xs font-bold rounded-xl border border-sky-100 text-center flex items-center justify-center gap-1.5 transition"
               >
                 <Mail className="w-4 h-4" /> Share by Email
               </a>
@@ -753,7 +753,7 @@ export default function TripDetails() {
             {/* Collaborators Invitation Placeholder */}
             <form onSubmit={handleInviteCollaborator} className="border-t border-sky-100 pt-5 space-y-3">
               <div>
-                <h4 className="text-xs font-bold text-white flex items-center gap-1">
+                <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1">
                   <UserPlus className="w-4 h-4 text-purple-400" /> Invite Collaborators (UI Only)
                 </h4>
                 <p className="text-[10px] text-slate-400 mt-0.5">Collaborators can edit lists and log shared expenses.</p>

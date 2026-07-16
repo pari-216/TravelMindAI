@@ -126,7 +126,7 @@ export default function Analytics() {
               
               {/* Monthly Expenses Area Chart */}
               <div className="bg-white backdrop-blur-xl border border-sky-100 rounded-3xl p-6 shadow-xl">
-                <h3 className="text-base font-bold text-white mb-4">Monthly Expenses</h3>
+                <h3 className="text-base font-bold text-slate-800 mb-4">Monthly Expenses</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={charts.monthlyExpenses}>
@@ -148,7 +148,7 @@ export default function Analytics() {
 
               {/* Budget vs Actual Bar Chart */}
               <div className="bg-white backdrop-blur-xl border border-sky-100 rounded-3xl p-6 shadow-xl">
-                <h3 className="text-base font-bold text-white mb-4">Budget vs Actual Spending</h3>
+                <h3 className="text-base font-bold text-slate-800 mb-4">Budget vs Actual Spending</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={charts.budgetVsActual}>
@@ -166,7 +166,7 @@ export default function Analytics() {
 
               {/* Expense Categories Pie Chart */}
               <div className="bg-white backdrop-blur-xl border border-sky-100 rounded-3xl p-6 shadow-xl">
-                <h3 className="text-base font-bold text-white mb-4">Expense Categories</h3>
+                <h3 className="text-base font-bold text-slate-800 mb-4">Expense Categories</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                   <div className="h-56">
                     <ResponsiveContainer width="100%" height="100%">
@@ -195,7 +195,7 @@ export default function Analytics() {
                           <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
                           <span className="text-slate-500 font-medium">{cat.name}</span>
                         </div>
-                        <span className="font-bold text-white">${cat.value}</span>
+                        <span className="font-bold text-slate-700">${cat.value}</span>
                       </div>
                     ))}
                   </div>
@@ -204,7 +204,7 @@ export default function Analytics() {
 
               {/* Travel Style Donut Chart */}
               <div className="bg-white backdrop-blur-xl border border-sky-100 rounded-3xl p-6 shadow-xl">
-                <h3 className="text-base font-bold text-white mb-4">Travel Styles</h3>
+                <h3 className="text-base font-bold text-slate-800 mb-4">Travel Styles</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                   <div className="h-56">
                     <ResponsiveContainer width="100%" height="100%">
@@ -232,7 +232,7 @@ export default function Analytics() {
                           <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[(idx + 2) % COLORS.length] }} />
                           <span className="text-slate-500 font-medium">{style.name}</span>
                         </div>
-                        <span className="font-bold text-white">{style.value} trips</span>
+                        <span className="font-bold text-slate-700">{style.value} trips</span>
                       </div>
                     ))}
                   </div>
@@ -244,7 +244,7 @@ export default function Analytics() {
         ) : (
           /* Timeline Tab */
           <div className="max-w-2xl mx-auto space-y-6">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+            <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
               <History className="w-5 h-5 text-blue-400" /> Recent Actions Log
             </h2>
 
@@ -272,7 +272,7 @@ export default function Analytics() {
                       <p className="text-xs text-slate-400 font-bold">
                         {new Date(act.createdAt).toLocaleString()}
                       </p>
-                      <h4 className="text-sm font-bold text-white mt-0.5">{act.title}</h4>
+                      <h4 className="text-sm font-bold text-slate-800 mt-0.5">{act.title}</h4>
                       {act.description && (
                         <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{act.description}</p>
                       )}
@@ -315,7 +315,7 @@ function StatItem({ title, value, icon: Icon, color }) {
     <div className="bg-white backdrop-blur-xl border border-sky-100 rounded-2xl p-5 flex items-center justify-between shadow-md">
       <div className="space-y-1">
         <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">{title}</p>
-        <p className="text-2xl font-black text-white">{value}</p>
+        <p className="text-2xl font-black text-slate-800">{value}</p>
       </div>
       <div className={`w-10 h-10 rounded-xl bg-white/80 border border-sky-100 flex items-center justify-center ${color}`}>
         <Icon className="w-5 h-5" />
