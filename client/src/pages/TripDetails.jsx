@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { 
   Edit2, Trash2, ArrowLeft, Calendar, DollarSign, Users, 
@@ -71,10 +71,10 @@ export default function TripDetails() {
     if (type === "lodging") {
       try {
         // Use real Geoapify hotel search via the new endpoint
-        const { data } = await axios.post("http://localhost:5000/api/hotels/search", {
+        const { data } = await api.post("/hotels/search", {
           destination: trip.destination,
           radiusKm: 5,
-        }, configHeaders);
+        }, {});
 
         const realHotels = data.hotels || [];
 
@@ -167,7 +167,6 @@ export default function TripDetails() {
   // PDF Export state
   const [isExporting, setIsExporting] = useState(false);
 
-  const configHeaders = { headers: { Authorization: `Bearer ${token}` } };
 
   // Fetch all trip details
   useEffect(() => {
@@ -175,7 +174,7 @@ export default function TripDetails() {
       try {
         setLoading(true);
         // 1. Fetch main Trip
-        const tripRes = await axios.get(`http://localhost:5000/api/trips/${id}`, configHeaders);
+        const tripRes = await api.get(`/trips/${id}`);
         const tripData = tripRes.data;
         setTrip(tripData);
 
@@ -192,7 +191,7 @@ export default function TripDetails() {
 
         // Fetch currency conversion rates
         try {
-          const rateRes = await axios.get(`http://localhost:5000/api/currency/convert?from=USD&to=${targetCurr}&amount=${tripData.budget}`, configHeaders);
+          const rateRes = await api.get(`/currency/convert?from=USD&to=${targetCurr}&amount=${tripData.budget}`);
           setConvertedBudget(rateRes.data.convertedAmount);
           setExchangeRate(rateRes.data.rate);
         } catch (err) {
@@ -204,7 +203,7 @@ export default function TripDetails() {
 
         // 2. Fetch Itineraries
         try {
-          const itRes = await axios.get(`http://localhost:5000/api/ai/itinerary`, configHeaders);
+          const itRes = await api.get(`/ai/itinerary`);
           const matchedIt = itRes.data.find(it => it.tripId === id);
           if (matchedIt) {
             setItinerary(matchedIt.generatedItinerary || matchedIt);
@@ -215,7 +214,7 @@ export default function TripDetails() {
 
         // 3. Fetch Expenses
         try {
-          const expRes = await axios.get(`http://localhost:5000/api/expenses`, configHeaders);
+          const expRes = await api.get(`/expenses`);
           setExpenses(expRes.data.filter(e => e.trip === id || e.trip?._id === id));
         } catch (err) {
           console.error("Error loading expenses", err);
@@ -223,7 +222,7 @@ export default function TripDetails() {
 
         // 4. Fetch Packing List
         try {
-          const packRes = await axios.get(`http://localhost:5000/api/packing`, configHeaders);
+          const packRes = await api.get(`/packing`);
           const matchedPack = packRes.data.find(l => l.tripId?._id === id || l.tripId === id);
           setPackingList(matchedPack);
         } catch (err) {
@@ -232,7 +231,7 @@ export default function TripDetails() {
 
         // 5. Fetch Journals
         try {
-          const journalRes = await axios.get(`http://localhost:5000/api/journal`, configHeaders);
+          const journalRes = await api.get(`/journal`);
           setJournals(journalRes.data.filter(j => j.tripId?._id === id || j.tripId === id));
         } catch (err) {
           console.error("Error loading journals", err);
@@ -253,9 +252,8 @@ export default function TripDetails() {
     setWeatherLoading(true);
     setWeatherError("");
     try {
-      const { data } = await axios.get(
-        `http://localhost:5000/api/weather?destination=${encodeURIComponent(dest)}`,
-        configHeaders
+      const { data } = await api.get(
+        `/weather?destination=${encodeURIComponent(dest)}`
       );
       setWeather(data);
     } catch (err) {
@@ -269,7 +267,7 @@ export default function TripDetails() {
   const handleShare = async () => {
     setShareLoading(true);
     try {
-      const { data } = await axios.post(`http://localhost:5000/api/shares/trip/${id}`, {}, configHeaders);
+      const { data } = await api.post(`/shares/trip/${id}`, {});
       setShareUrl(data.shareUrl);
       setShowShareModal(true);
     } catch (err) {
@@ -296,7 +294,7 @@ export default function TripDetails() {
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this trip?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/trips/${id}`, configHeaders);
+        await api.delete(`/trips/${id}`);
         navigate("/dashboard/trips");
       } catch (error) {
         alert("Failed to delete trip");

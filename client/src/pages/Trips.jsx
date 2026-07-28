@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { Plus, MapPin } from "lucide-react";
 import TripCard from "../components/TripCard";
@@ -13,8 +13,7 @@ export default function Trips() {
   useEffect(() => {
     const fetchTrips = async () => {
       try {
-        const config = { headers: { Authorization: `Bearer ${token}` } };
-        const { data } = await axios.get("http://localhost:5000/api/trips", config);
+        const { data } = await api.get("/trips");
         setTrips(data);
       } catch (error) {
         console.error("Error fetching trips", error);

@@ -12,7 +12,19 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin) return callback(null, true);
+    const allowedOrigins = (process.env.CLIENT_ORIGIN || "http://localhost:5173").split(",");
+    if (allowedOrigins.some(o => origin.startsWith(o.trim()))) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS: origin ${origin} not allowed`));
+    }
+  },
+  credentials: true,
+}));
 app.use(express.json());
 
 // Health check route

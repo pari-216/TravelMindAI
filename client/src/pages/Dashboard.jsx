@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useSettings } from "../context/SettingsContext";
@@ -30,10 +29,9 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const config = { headers: { Authorization: `Bearer ${token}` } };
         const [tripsRes, expensesRes, destRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/trips", config),
-          axios.get("http://localhost:5000/api/expenses", config),
+          api.get("/trips"),
+          api.get("/expenses"),
           api.get("/destinations").catch(() => ({ data: [] }))
         ]);
 
@@ -45,9 +43,8 @@ export default function Dashboard() {
         if (trip) {
           setCurrentTrip(trip);
           try {
-            const { data } = await axios.get(
-              `http://localhost:5000/api/weather?destination=${encodeURIComponent(trip.destination)}`,
-              config
+            const { data } = await api.get(
+              `/weather?destination=${encodeURIComponent(trip.destination)}`
             );
             setWeather(data);
           } catch (err) {

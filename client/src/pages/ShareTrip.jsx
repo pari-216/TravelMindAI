@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../services/api";
 import { 
   MapPin, Calendar, DollarSign, Users, Briefcase, 
   Sparkles, CheckCircle2, ChevronRight, Award, ShieldAlert,
@@ -17,7 +17,7 @@ export default function ShareTrip() {
   const fetchPublicTrip = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:5000/api/shares/public/${token}`);
+      const res = await api.get(`/shares/public/${token}`);
       setData(res.data);
     } catch (err) {
       console.error(err);

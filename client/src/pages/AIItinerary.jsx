@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -157,15 +157,15 @@ function DayCard({ dayData, index }) {
 
               {/* Tips */}
               {tips?.length > 0 && (
-                <div className="bg-yellow-500/5 border border-yellow-500/15 rounded-2xl p-4">
+                <div className="bg-yellow-50 border border-yellow-300/50 rounded-2xl p-4">
                   <div className="flex items-center space-x-2 mb-3">
-                    <Lightbulb className="w-4 h-4 text-yellow-400" />
-                    <span className="text-sm font-bold text-yellow-300">Insider Tips</span>
+                    <Lightbulb className="w-4 h-4 text-yellow-600" />
+                    <span className="text-sm font-bold text-yellow-800">Insider Tips</span>
                   </div>
                   <ul className="space-y-1.5">
                     {tips.map((tip, i) => (
-                      <li key={i} className="text-xs text-yellow-200/80 flex items-start space-x-2">
-                        <span className="text-yellow-500 mt-0.5 font-bold">{i + 1}.</span>
+                      <li key={i} className="text-xs text-yellow-900 flex items-start space-x-2">
+                        <span className="text-yellow-700 mt-0.5 font-bold">{i + 1}.</span>
                         <span>{tip}</span>
                       </li>
                     ))}
@@ -223,8 +223,7 @@ export default function AIItinerary() {
     setLoading(true);
     setItinerary(null);
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      const { data } = await axios.post("http://localhost:5000/api/ai/itinerary/generate", form, config);
+      const { data } = await api.post("/ai/itinerary/generate", form);
       setItinerary(data.itinerary);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to generate itinerary. Please try again.");
@@ -237,12 +236,11 @@ export default function AIItinerary() {
     if (!itinerary) return;
     setSaving(true);
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      await axios.post("http://localhost:5000/api/ai/itinerary/save", {
+      await api.post("/ai/itinerary/save", {
         destination: form.destination,
         prompt: form,
         generatedItinerary: itinerary,
-      }, config);
+      });
       setSaved(true);
     } catch (err) {
       setError("Failed to save itinerary.");
@@ -387,7 +385,7 @@ export default function AIItinerary() {
       {!loading && itinerary && (
         <div className="space-y-6">
           {/* Summary Card */}
-          <div className="bg-gradient-to-br from-purple-900/40 to-blue-900/40 border border-purple-500/20 backdrop-blur rounded-3xl p-6 space-y-4">
+          <div className="bg-gradient-to-br from-teal-400/20 to-cyan-400/20 border border-teal-400/30 backdrop-blur rounded-3xl p-6 space-y-4">
             <div className="flex items-start justify-between">
               <div>
                 <h2 className="text-2xl font-bold" style={{color:"var(--text-heading)"}}>{form.destination}</h2>
@@ -404,9 +402,9 @@ export default function AIItinerary() {
           <div className="flex items-center space-x-3">
             <button
               onClick={handleGenerate}
-              className="flex items-center space-x-2 px-5 py-2.5 bg-white hover:bg-sky-100 text-white font-medium rounded-xl border border-sky-100 transition-colors"
+              className="flex items-center space-x-2 px-5 py-2.5 bg-white hover:bg-sky-100 text-slate-700 font-medium rounded-xl border border-sky-200 transition-colors"
             >
-              <RefreshCw className="w-4 h-4" />
+              <RefreshCw className="w-4 h-4 text-teal-500" />
               <span>Regenerate</span>
             </button>
             <button

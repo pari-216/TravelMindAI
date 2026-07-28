@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Save } from "lucide-react";
@@ -41,8 +41,7 @@ export default function CreateTrip() {
 
     setLoading(true);
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      await axios.post("http://localhost:5000/api/trips", formData, config);
+      await api.post("/trips", formData);
       navigate("/dashboard/trips");
     } catch (err) {
       setError(err.response?.data?.message || err.message);

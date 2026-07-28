@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { DollarSign, AlertTriangle, CheckCircle, TrendingUp, Calendar, MapPin, Sparkles, Bot, Lightbulb } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,13 +21,12 @@ export default function Budget() {
     setAiLoading(true);
     setAiError("");
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      const { data } = await axios.post("http://localhost:5000/api/ai/budget-insights", {
+      const { data } = await api.post("/ai/budget-insights", {
         destination: `${selectedTrip.destination}, ${selectedTrip.country}`,
         budget: totalBudget,
         totalSpent,
         expenses: tripExpenses.map((e) => ({ category: e.category, amount: e.amount })),
-      }, config);
+      });
       setAiTips(data.tips || []);
     } catch (err) {
       setAiError(err.response?.data?.message || "Failed to load AI insights.");
@@ -39,9 +38,8 @@ export default function Budget() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const config = { headers: { Authorization: `Bearer ${token}` } };
-        const tripsRes = await axios.get("http://localhost:5000/api/trips", config);
-        const expensesRes = await axios.get("http://localhost:5000/api/expenses", config);
+        const tripsRes = await api.get("/trips");
+        const expensesRes = await api.get("/expenses");
         
         setTrips(tripsRes.data);
         setExpenses(expensesRes.data);

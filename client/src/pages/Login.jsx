@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -25,8 +25,7 @@ export default function Login() {
 
     try {
       console.log("Frontend: Sending request...");
-      const config = { headers: { "Content-Type": "application/json" } };
-      const { data } = await axios.post("http://localhost:5000/api/auth/login", { email, password }, config);
+      const { data } = await api.post("/auth/login", { email, password });
       
       console.log("Frontend: Login successful.");
       setMessage("Login successful. Redirecting to dashboard...");
@@ -38,11 +37,14 @@ export default function Login() {
       navigate("/dashboard");
     } catch (err) {
       console.log("Frontend Error:", err);
-      setError(
-        err.response && err.response.data.message
-          ? err.response.data.message
-          : err.message
-      );
+      const status = err.response?.status;
+      let errMsg;
+      if (!err.response || status === 502 || status === 503 || status === 504) {
+        errMsg = "Cannot reach the server. Please make sure the backend is running and try again.";
+      } else {
+        errMsg = err.response.data?.message || err.message;
+      }
+      setError(errMsg);
       setMessage("");
     } finally {
       setLoading(false);

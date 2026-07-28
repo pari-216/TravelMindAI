@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { ArrowLeft, Save } from "lucide-react";
@@ -29,8 +29,7 @@ export default function EditTrip() {
   useEffect(() => {
     const fetchTrip = async () => {
       try {
-        const config = { headers: { Authorization: `Bearer ${token}` } };
-        const { data } = await axios.get(`http://localhost:5000/api/trips/${id}`, config);
+        const { data } = await api.get(`/trips/${id}`);
         
         // Convert ISO dates to YYYY-MM-DD for input fields
         const start = data.startDate ? new Date(data.startDate).toISOString().split('T')[0] : "";
@@ -63,8 +62,7 @@ export default function EditTrip() {
 
     setSaving(true);
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      await axios.put(`http://localhost:5000/api/trips/${id}`, formData, config);
+      await api.put(`/trips/${id}`, formData);
       navigate(`/dashboard/trips/${id}`);
     } catch (err) {
       setError(err.response?.data?.message || err.message);

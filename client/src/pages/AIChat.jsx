@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
@@ -99,8 +99,7 @@ export default function AIChat() {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const config = { headers: { Authorization: `Bearer ${token}` } };
-        const { data } = await axios.get("http://localhost:5000/api/ai/chat/history", config);
+        const { data } = await api.get("/ai/chat/history");
         if (data.messages?.length) {
           setMessages(data.messages);
           setHistoryId(data._id);
@@ -141,11 +140,9 @@ export default function AIChat() {
     setIsThinking(true);
 
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      const { data } = await axios.post(
-        "http://localhost:5000/api/ai/chat",
-        { message: msg, historyId },
-        config
+      const { data } = await api.post(
+        "/ai/chat",
+        { message: msg, historyId }
       );
 
       setHistoryId(data.historyId);

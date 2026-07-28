@@ -160,7 +160,7 @@ export default function Settings() {
 
   // ─── Privacy Zone Actions ──────────────────────────────────────────────────
   const handleExportData = () => {
-    window.open("http://localhost:5000/api/settings/privacy/export", "_blank");
+    window.open("/api/settings/privacy/export", "_blank");
     showSuccess("Data export started!");
   };
 

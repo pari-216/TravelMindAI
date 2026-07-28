@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import {
@@ -13,7 +12,6 @@ import PageTransition from "../components/PageTransition";
 
 export default function Profile() {
   const { token, user: authUser } = useAuth();
-  const configHeaders = { headers: { Authorization: `Bearer ${token}` } };
 
   // Profile basic data
   const [profile, setProfile] = useState(null);
@@ -51,12 +49,12 @@ export default function Profile() {
     setLoading(true);
     try {
       const [profileRes, prefsRes, tripsRes, expensesRes, journalsRes, packingRes] = await Promise.allSettled([
-        axios.get("http://localhost:5000/api/auth/profile", configHeaders),
+        api.get("/auth/profile"),
         api.get("/preferences"),
-        axios.get("http://localhost:5000/api/trips", configHeaders),
-        axios.get("http://localhost:5000/api/expenses", configHeaders),
-        axios.get("http://localhost:5000/api/journal", configHeaders),
-        axios.get("http://localhost:5000/api/packing", configHeaders),
+        api.get("/trips"),
+        api.get("/expenses"),
+        api.get("/journal"),
+        api.get("/packing"),
       ]);
 
       if (profileRes.status === "fulfilled") {
@@ -105,7 +103,7 @@ export default function Profile() {
         payload.password = newPassword;
         payload.currentPassword = currentPassword;
       }
-      const { data: updatedProfile } = await axios.put("http://localhost:5000/api/auth/profile", payload, configHeaders);
+      const { data: updatedProfile } = await api.put("/auth/profile", payload);
       setProfile(updatedProfile);
 
       // 2. Update extended preferences

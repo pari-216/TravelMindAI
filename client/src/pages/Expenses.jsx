@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { 
   Plus, Edit2, Trash2, Calendar, DollarSign, Tag, 
@@ -72,9 +72,8 @@ export default function Expenses() {
 
   const fetchData = async () => {
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      const tripsRes = await axios.get("http://localhost:5000/api/trips", config);
-      const expensesRes = await axios.get("http://localhost:5000/api/expenses", config);
+      const tripsRes = await api.get("/trips");
+      const expensesRes = await api.get("/expenses");
       
       setTrips(tripsRes.data);
       setExpenses(expensesRes.data);
@@ -132,15 +131,14 @@ export default function Expenses() {
     }
 
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
       if (selectedExpense) {
         // Edit Mode
-        const { data } = await axios.put(`http://localhost:5000/api/expenses/${selectedExpense._id}`, formData, config);
+        const { data } = await api.put(`/expenses/${selectedExpense._id}`, formData);
         setExpenses(expenses.map((exp) => (exp._id === selectedExpense._id ? data : exp)));
         showToast("Expense updated successfully");
       } else {
         // Add Mode
-        const { data } = await axios.post("http://localhost:5000/api/expenses", formData, config);
+        const { data } = await api.post("/expenses", formData);
         setExpenses([data, ...expenses]);
         showToast("Expense created successfully");
       }
@@ -152,8 +150,7 @@ export default function Expenses() {
 
   const handleDelete = async (id) => {
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
-      await axios.delete(`http://localhost:5000/api/expenses/${id}`, config);
+      await api.delete(`/expenses/${id}`);
       setExpenses(expenses.filter((exp) => exp._id !== id));
       showToast("Expense deleted successfully");
       setDeleteConfirmId(null);
