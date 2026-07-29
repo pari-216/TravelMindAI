@@ -1,20 +1,25 @@
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
-  const RETRY_INTERVAL_MS = 5000;
+  const primaryUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/travelmindai";
+  const fallbackUri = "mongodb://127.0.0.1:27017/travelmindai";
 
-  const attempt = async () => {
-    try {
-      const conn = await mongoose.connect(process.env.MONGODB_URI);
-      console.log(`MongoDB connected: ${conn.connection.host}`);
-    } catch (error) {
-      console.error(`MongoDB connection error: ${error.message}`);
-      console.log(`Retrying MongoDB connection in ${RETRY_INTERVAL_MS / 1000}s...`);
-      setTimeout(attempt, RETRY_INTERVAL_MS);
+  try {
+    const conn = await mongoose.connect(primaryUri, { serverSelectionTimeoutMS: 5000 });
+    console.log(`MongoDB connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Primary MongoDB connection error (${primaryUri}): ${error.message}`);
+    if (primaryUri !== fallbackUri) {
+      console.log(`Attempting fallback connection to local MongoDB (${fallbackUri})...`);
+      try {
+        const conn = await mongoose.connect(fallbackUri, { serverSelectionTimeoutMS: 5000 });
+        console.log(`Fallback MongoDB connected: ${conn.connection.host}`);
+        return;
+      } catch (fallbackError) {
+        console.error(`Fallback MongoDB connection error: ${fallbackError.message}`);
+      }
     }
-  };
-
-  await attempt();
+  }
 };
 
 module.exports = connectDB;
