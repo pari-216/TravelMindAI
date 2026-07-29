@@ -114,3 +114,11 @@ TravelMind AI is a full-stack AI-powered travel planning platform that helps use
 - Save favorite destinations
 - Bookmark hotels
 - Quick access to saved trips
+
+---
+
+## 🌐 Live Demo
+
+🔗 **Website:** https://travelmindai-nine.vercel.app/
+
+
