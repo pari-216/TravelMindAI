@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import { Send, Bot, User, Zap, RotateCcw } from "lucide-react";
 
 const QUICK_PROMPTS = [
@@ -22,7 +24,7 @@ function TypingIndicator() {
         <Bot className="w-4 h-4 text-white" />
       </div>
       <div className="bg-white border border-sky-100 rounded-2xl rounded-bl-sm px-4 py-3 flex space-x-1.5">
-        {[0,1,2].map(i => (
+        {[0, 1, 2].map((i) => (
           <motion.div
             key={i}
             className="w-2 h-2 bg-gray-400 rounded-full"
@@ -35,6 +37,91 @@ function TypingIndicator() {
   );
 }
 
+// ─── Markdown component overrides ────────────────────────────────────────────
+const mdComponents = {
+  p: ({ children }) => (
+    <p className="mb-2 last:mb-0 leading-relaxed text-slate-700">{children}</p>
+  ),
+  ul: ({ children }) => (
+    <ul className="list-disc pl-5 mb-2 space-y-1 text-slate-700">{children}</ul>
+  ),
+  ol: ({ children }) => (
+    <ol className="list-decimal pl-5 mb-2 space-y-1 text-slate-700">{children}</ol>
+  ),
+  li: ({ children }) => (
+    <li className="leading-relaxed text-slate-700">{children}</li>
+  ),
+  strong: ({ children }) => (
+    <strong className="font-semibold text-slate-900">{children}</strong>
+  ),
+  em: ({ children }) => (
+    <em className="italic text-slate-600">{children}</em>
+  ),
+  h1: ({ children }) => (
+    <h1 className="text-lg font-bold text-slate-900 mt-3 mb-1 border-b border-slate-200 pb-1">
+      {children}
+    </h1>
+  ),
+  h2: ({ children }) => (
+    <h2 className="text-base font-bold text-slate-900 mt-3 mb-1">{children}</h2>
+  ),
+  h3: ({ children }) => (
+    <h3 className="text-sm font-bold text-slate-800 mt-2 mb-1">{children}</h3>
+  ),
+  h4: ({ children }) => (
+    <h4 className="text-sm font-semibold text-slate-700 mt-2 mb-0.5">{children}</h4>
+  ),
+  blockquote: ({ children }) => (
+    <blockquote className="border-l-4 border-purple-400 pl-3 my-2 text-slate-600 italic bg-purple-50 py-1 rounded-r-lg">
+      {children}
+    </blockquote>
+  ),
+  code: ({ inline, children }) =>
+    inline ? (
+      <code className="bg-slate-100 text-purple-700 text-xs font-mono px-1.5 py-0.5 rounded">
+        {children}
+      </code>
+    ) : (
+      <pre className="bg-slate-900 text-green-300 text-xs font-mono p-3 rounded-xl overflow-x-auto my-2">
+        <code>{children}</code>
+      </pre>
+    ),
+  table: ({ children }) => (
+    <div className="overflow-x-auto my-3 rounded-xl border border-slate-200 shadow-sm">
+      <table className="w-full text-xs border-collapse">{children}</table>
+    </div>
+  ),
+  thead: ({ children }) => (
+    <thead className="bg-gradient-to-r from-purple-50 to-blue-50">{children}</thead>
+  ),
+  tbody: ({ children }) => (
+    <tbody className="divide-y divide-slate-100">{children}</tbody>
+  ),
+  tr: ({ children }) => (
+    <tr className="hover:bg-slate-50 transition-colors">{children}</tr>
+  ),
+  th: ({ children }) => (
+    <th className="px-3 py-2 text-left font-semibold text-slate-700 border-b border-slate-200 whitespace-nowrap">
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td className="px-3 py-2 text-slate-600">{children}</td>
+  ),
+  hr: () => <hr className="my-3 border-slate-200" />,
+  a: ({ href, children }) => (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-purple-600 hover:text-purple-800 underline underline-offset-2"
+    >
+      {children}
+    </a>
+  ),
+  br: () => <br />,
+};
+
 // ─── Message Bubble ───────────────────────────────────────────────────────────
 function MessageBubble({ msg }) {
   const isUser = msg.role === "user";
@@ -46,38 +133,46 @@ function MessageBubble({ msg }) {
       className={`flex items-end space-x-3 ${isUser ? "flex-row-reverse space-x-reverse" : ""}`}
     >
       {/* Avatar */}
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-        isUser ? "bg-blue-600" : "bg-gradient-to-br from-purple-600 to-blue-600"
-      }`}>
-        {isUser ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-white" />}
+      <div
+        className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+          isUser
+            ? "bg-blue-600"
+            : "bg-gradient-to-br from-purple-600 to-blue-600"
+        }`}
+      >
+        {isUser ? (
+          <User className="w-4 h-4 text-white" />
+        ) : (
+          <Bot className="w-4 h-4 text-white" />
+        )}
       </div>
 
       {/* Bubble */}
-      <div className={`max-w-[75%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${
-        isUser
-          ? "bg-blue-600 text-white rounded-br-sm"
-          : "bg-white border border-sky-100 text-slate-700 rounded-bl-sm"
-      }`}>
+      <div
+        className={`max-w-[75%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${
+          isUser
+            ? "bg-blue-600 text-white rounded-br-sm"
+            : "bg-white border border-sky-100 text-slate-700 rounded-bl-sm"
+        }`}
+      >
         {isUser ? (
-          <p>{msg.content}</p>
+          <p className="whitespace-pre-wrap">{msg.content}</p>
         ) : (
           <div className="prose prose-sm max-w-none">
             <ReactMarkdown
-              components={{
-                p: ({ children }) => <p className="mb-2 last:mb-0" style={{color:"var(--text-primary)"}}>{children}</p>,
-                ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
-                ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
-                li: ({ children }) => <li style={{color:"var(--text-primary)"}}>{children}</li>,
-                strong: ({ children }) => <strong style={{color:"var(--text-heading)"}} className="font-semibold">{children}</strong>,
-                h3: ({ children }) => <h3 style={{color:"var(--text-heading)"}} className="font-bold mt-3 mb-1">{children}</h3>,
-              }}
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+              components={mdComponents}
             >
               {msg.content}
             </ReactMarkdown>
           </div>
         )}
         <p className="text-xs opacity-50 mt-1.5 text-right">
-          {new Date(msg.timestamp || Date.now()).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+          {new Date(msg.timestamp || Date.now()).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
         </p>
       </div>
     </motion.div>
@@ -104,20 +199,24 @@ export default function AIChat() {
           setMessages(data.messages);
           setHistoryId(data._id);
         } else {
-          // Seed a welcome message
-          setMessages([{
-            role: "assistant",
-            content: "Hey there! ✈️ I'm **Maya**, your AI travel companion. I can help you plan trips, suggest hidden gems, build itineraries, give packing tips, and more.\n\nWhere are you headed?",
-            timestamp: Date.now(),
-          }]);
+          setMessages([
+            {
+              role: "assistant",
+              content:
+                "Hey there! ✈️ I'm **Maya**, your AI travel companion. I can help you plan trips, suggest hidden gems, build itineraries, give packing tips, and more.\n\nWhere are you headed?",
+              timestamp: Date.now(),
+            },
+          ]);
         }
       } catch (err) {
-        // If history fetch fails just show welcome
-        setMessages([{
-          role: "assistant",
-          content: "Hey there! ✈️ I'm **Maya**, your AI travel companion. I can help you plan trips, suggest hidden gems, build itineraries, give packing tips, and more.\n\nWhere are you headed?",
-          timestamp: Date.now(),
-        }]);
+        setMessages([
+          {
+            role: "assistant",
+            content:
+              "Hey there! ✈️ I'm **Maya**, your AI travel companion. I can help you plan trips, suggest hidden gems, build itineraries, give packing tips, and more.\n\nWhere are you headed?",
+            timestamp: Date.now(),
+          },
+        ]);
       }
     };
     fetchHistory();
@@ -140,22 +239,23 @@ export default function AIChat() {
     setIsThinking(true);
 
     try {
-      const { data } = await api.post(
-        "/ai/chat",
-        { message: msg, historyId }
-      );
-
+      const { data } = await api.post("/ai/chat", { message: msg, historyId });
       setHistoryId(data.historyId);
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: data.reply, timestamp: Date.now() },
       ]);
     } catch (err) {
-      const errMsg = err.response?.data?.message || "Something went wrong. Please try again.";
+      const errMsg =
+        err.response?.data?.message || "Something went wrong. Please try again.";
       setError(errMsg);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: `⚠️ ${errMsg}`, timestamp: Date.now() },
+        {
+          role: "assistant",
+          content: `⚠️ ${errMsg}`,
+          timestamp: Date.now(),
+        },
       ]);
     } finally {
       setIsThinking(false);
@@ -171,11 +271,13 @@ export default function AIChat() {
   };
 
   const clearChat = () => {
-    setMessages([{
-      role: "assistant",
-      content: "Chat cleared! Where would you like to explore next? 🌍",
-      timestamp: Date.now(),
-    }]);
+    setMessages([
+      {
+        role: "assistant",
+        content: "Chat cleared! Where would you like to explore next? 🌍",
+        timestamp: Date.now(),
+      },
+    ]);
     setHistoryId(null);
     setError("");
   };
@@ -189,10 +291,15 @@ export default function AIChat() {
             <Bot className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-xl font-bold" style={{color:"var(--text-heading)"}}>Maya — AI Travel Assistant</h1>
+            <h1
+              className="text-xl font-bold"
+              style={{ color: "var(--text-heading)" }}
+            >
+              Maya — AI Travel Assistant
+            </h1>
             <div className="flex items-center space-x-1.5">
               <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-              <span className="text-xs text-slate-500">Powered by Google Gemini</span>
+              <span className="text-xs text-slate-500">Powered by Groq AI</span>
             </div>
           </div>
         </div>
@@ -240,7 +347,13 @@ export default function AIChat() {
             onKeyDown={handleKeyDown}
             placeholder="Ask me anything about travel…"
             rows={1}
-            style={{ resize: "none", height: "auto", maxHeight: "120px", overflowY: "auto", color: "var(--text-primary)" }}
+            style={{
+              resize: "none",
+              height: "auto",
+              maxHeight: "120px",
+              overflowY: "auto",
+              color: "var(--text-primary)",
+            }}
             onInput={(e) => {
               e.target.style.height = "auto";
               e.target.style.height = e.target.scrollHeight + "px";
@@ -255,7 +368,9 @@ export default function AIChat() {
             <Send className="w-4 h-4" />
           </button>
         </div>
-        <p className="text-xs text-gray-600 mt-1 ml-1">Press Enter to send · Shift+Enter for new line</p>
+        <p className="text-xs text-gray-600 mt-1 ml-1">
+          Press Enter to send · Shift+Enter for new line
+        </p>
       </div>
     </div>
   );

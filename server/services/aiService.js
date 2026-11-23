@@ -16,7 +16,7 @@ const getGroq = () => {
   return groqClient;
 };
 
-const MODEL = "llama-3.3-70b-versatile"; // fast, capable, free-tier friendly
+const MODEL = "openai/gpt-oss-120b"; // most capable model available on this Groq account
 
 /**
  * Helper — call Groq chat completions and return the text response.
@@ -30,10 +30,61 @@ const callGroq = async (messages, systemPrompt = null) => {
     model: MODEL,
     messages: msgs,
     temperature: 0.7,
-    max_tokens: 4096,
+    max_tokens: 8192,
   });
 
-  return completion.choices[0]?.message?.content?.trim() ?? "";
+  return completion.choices[0]?.message?.content ?? "";
+};
+
+/**
+ * Like callGroq but forces JSON output via response_format and higher token budget.
+ * Use for every function that needs to parse the model's response as JSON.
+ */
+const callGroqJSON = async (messages, systemPrompt = null) => {
+  const msgs = [];
+  if (systemPrompt) msgs.push({ role: "system", content: systemPrompt });
+  msgs.push(...messages);
+
+  const completion = await getGroq().chat.completions.create({
+    model: MODEL,
+    messages: msgs,
+    temperature: 0.7,
+    max_tokens: 16384,
+    response_format: { type: "json_object" },
+  });
+
+  const raw = completion.choices[0]?.message?.content ?? "";
+  return JSON.parse(raw);
+};
+
+/**
+ * Robustly extract the first JSON object or array from a model response.
+ * Handles: markdown fences, <think> tags, leading/trailing prose, encoding junk.
+ */
+const extractJSON = (text) => {
+  // 1. Strip <think>...</think> blocks (some models emit chain-of-thought)
+  let clean = text.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+  // 2. Strip markdown code fences
+  clean = clean.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
+  // 3. Try direct parse first
+  try { return JSON.parse(clean); } catch (_) {}
+  // 4. Extract first {...} or [...] block via balanced bracket scan
+  const starts = [clean.indexOf("{"), clean.indexOf("[")].filter(i => i !== -1);
+  if (starts.length === 0) throw new SyntaxError("No JSON structure found in model response");
+  const start = Math.min(...starts);
+  const opener = clean[start];
+  const closer = opener === "{" ? "}" : "]";
+  let depth = 0, inStr = false, escape = false;
+  for (let i = start; i < clean.length; i++) {
+    const ch = clean[i];
+    if (escape) { escape = false; continue; }
+    if (ch === "\\" && inStr) { escape = true; continue; }
+    if (ch === '"') { inStr = !inStr; continue; }
+    if (inStr) continue;
+    if (ch === opener) depth++;
+    else if (ch === closer) { depth--; if (depth === 0) { return JSON.parse(clean.slice(start, i + 1)); } }
+  }
+  throw new SyntaxError("Unbalanced JSON structure in model response");
 };
 
 /**
@@ -85,11 +136,7 @@ The JSON must exactly match this schema:
 
 Generate exactly ${numDays} day objects. Be specific, practical, and tailor recommendations to the travel style and interests.`;
 
-  const text = await callGroq([{ role: "user", content: prompt }]);
-
-  // Strip accidental markdown fences
-  const clean = text.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
-  return JSON.parse(clean);
+  return await callGroqJSON([{ role: "user", content: prompt }]);
 };
 
 /**
@@ -135,12 +182,11 @@ Expense breakdown: ${expenseSummary}.
 
 Give 5–7 practical, specific money-saving tips tailored to this destination and their spending pattern.
 
-Return ONLY a JSON array of strings. No markdown, no extra text.
-Example: ["Tip 1", "Tip 2", "Tip 3"]`;
+Return a JSON object with one key "tips" containing an array of strings.
+Example: {"tips": ["Tip 1", "Tip 2", "Tip 3"]}`;
 
-  const text = await callGroq([{ role: "user", content: prompt }]);
-  const clean = text.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
-  return JSON.parse(clean);
+  const result = await callGroqJSON([{ role: "user", content: prompt }]);
+  return result.tips ?? result;
 };
 
 /**
@@ -166,9 +212,7 @@ Return ONLY valid JSON matching this exact schema. No markdown, no extra text:
   "internet": "SIM card advice and average data costs"
 }`;
 
-  const text = await callGroq([{ role: "user", content: prompt }]);
-  const clean = text.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
-  return JSON.parse(clean);
+  return await callGroqJSON([{ role: "user", content: prompt }]);
 };
 
 /**
@@ -189,21 +233,22 @@ const generatePackingList = async (params) => {
 - Travel style: ${travelStyle || "Adventure"}
 - Activities: ${activityList}
 
-Return ONLY a valid JSON array. No markdown, no extra text. Each item must follow this exact schema:
-[
-  {
-    "name": "Item name",
-    "category": "One of: Documents, Clothing, Electronics, Health & Medicine, Toiletries, Accessories, Food & Snacks, Travel Essentials, Optional Items",
-    "essential": true,
-    "quantity": 1
-  }
-]
+Return a JSON object with one key "items" containing an array. Each item must follow this exact schema:
+{
+  "items": [
+    {
+      "name": "Item name",
+      "category": "One of: Documents, Clothing, Electronics, Health & Medicine, Toiletries, Accessories, Food & Snacks, Travel Essentials, Optional Items",
+      "essential": true,
+      "quantity": 1
+    }
+  ]
+}
 
 Generate 30-50 items covering all relevant categories. Mark truly essential items as essential:true, nice-to-haves as essential:false. Tailor specifically to the destination, weather, and activities.`;
 
-  const text = await callGroq([{ role: "user", content: prompt }]);
-  const clean = text.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
-  return JSON.parse(clean);
+  const result = await callGroqJSON([{ role: "user", content: prompt }]);
+  return result.items ?? result;
 };
 
 /**
@@ -234,9 +279,7 @@ Return ONLY valid JSON matching this exact schema. No markdown, no extra text:
 
 Make the improved content engaging, vivid, and personal. Keep it authentic to the traveler's experience.`;
 
-  const text = await callGroq([{ role: "user", content: prompt }]);
-  const clean = text.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
-  return JSON.parse(clean);
+  return await callGroqJSON([{ role: "user", content: prompt }]);
 };
 
 /**
@@ -302,10 +345,8 @@ CRITICAL: Return ONLY valid JSON, no markdown, no extra text. Use the EXACT hote
   "best_overall": { ... same schema ... }
 }`;
 
-  const text = await callGroq([{ role: "user", content: prompt }], 
+  return await callGroqJSON([{ role: "user", content: prompt }],
     "You are a travel expert AI. Always return valid JSON only. Never add markdown or explanations outside the JSON.");
-  const clean = text.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
-  return JSON.parse(clean);
 };
 
 /**
@@ -331,9 +372,7 @@ Return ONLY a valid JSON object. No markdown, no extra text:
   "business": { ... }
 }`;
 
-  const text = await callGroq([{ role: "user", content: prompt }]);
-  const clean = text.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
-  return JSON.parse(clean);
+  return await callGroqJSON([{ role: "user", content: prompt }]);
 };
 
 /**
@@ -345,12 +384,11 @@ const getWeatherAdvice = async (weatherData) => {
 ${JSON.stringify(weatherData)}
 
 Generate 3-4 practical, short weather-based travel advices (e.g., "Carry an umbrella", "Avoid afternoon hiking", "Pack warm clothing", "Apply sunscreen").
-Return ONLY a JSON array of strings. No markdown, no extra text.
-Example: ["Advice 1", "Advice 2", "Advice 3"]`;
+Return a JSON object with one key "advice" containing an array of strings.
+Example: {"advice": ["Advice 1", "Advice 2", "Advice 3"]}`;
 
-  const text = await callGroq([{ role: "user", content: prompt }]);
-  const clean = text.replace(/^```json\s*/i, "").replace(/```\s*$/i, "").trim();
-  return JSON.parse(clean);
+  const result = await callGroqJSON([{ role: "user", content: prompt }]);
+  return result.advice ?? result;
 };
 
 module.exports = { 
