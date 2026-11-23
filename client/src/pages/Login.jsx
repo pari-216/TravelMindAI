@@ -37,12 +37,15 @@ export default function Login() {
       navigate("/dashboard");
     } catch (err) {
       console.log("Frontend Error:", err);
+      const backendMessage = err.response?.data?.message;
       const status = err.response?.status;
       let errMsg;
-      if (!err.response || status === 502 || status === 503 || status === 504) {
+      if (backendMessage) {
+        errMsg = backendMessage;
+      } else if (!err.response || status === 502 || status === 503 || status === 504) {
         errMsg = "Cannot reach the server. Please make sure the backend is running and try again.";
       } else {
-        errMsg = err.response.data?.message || err.message;
+        errMsg = err.message || "An unexpected error occurred.";
       }
       setError(errMsg);
       setMessage("");

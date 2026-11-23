@@ -8,7 +8,14 @@
 
 const Groq = require("groq-sdk");
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+let groqClient = null;
+const getGroq = () => {
+  if (!groqClient) {
+    groqClient = new Groq({ apiKey: process.env.GROQ_API_KEY || "dummy_key" });
+  }
+  return groqClient;
+};
+
 const MODEL = "llama-3.3-70b-versatile"; // fast, capable, free-tier friendly
 
 /**
@@ -19,7 +26,7 @@ const callGroq = async (messages, systemPrompt = null) => {
   if (systemPrompt) msgs.push({ role: "system", content: systemPrompt });
   msgs.push(...messages);
 
-  const completion = await groq.chat.completions.create({
+  const completion = await getGroq().chat.completions.create({
     model: MODEL,
     messages: msgs,
     temperature: 0.7,

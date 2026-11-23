@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
@@ -8,11 +9,24 @@ const generateToken = (id) => {
   });
 };
 
+// Helper to check DB readiness
+const checkDbConnection = (res) => {
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      message: "Database connection unavailable. If your MongoDB Atlas cluster was paused due to inactivity, please resume it in your MongoDB Atlas dashboard.",
+      error: "Database disconnected",
+    });
+  }
+  return null;
+};
+
 // @desc    Register a new user
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = async (req, res) => {
   console.log("Backend: Request received for registration");
+  if (checkDbConnection(res)) return;
+
   try {
     const { name, email, password } = req.body;
 
@@ -49,8 +63,12 @@ const registerUser = async (req, res) => {
       res.status(400).json({ message: "Invalid user data" });
     }
   } catch (error) {
-    console.log("Backend error in registerUser:", error.message);
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error("Backend error in registerUser:", error.message);
+    const isDbError = error.name === "MongooseError" || error.name === "MongoServerError" || error.name === "MongoNetworkError";
+    const userMessage = isDbError
+      ? "Database error. Please verify your MongoDB Atlas cluster is active."
+      : (error.message || "An unexpected error occurred during registration.");
+    res.status(500).json({ message: userMessage, error: error.message });
   }
 };
 
@@ -59,6 +77,8 @@ const registerUser = async (req, res) => {
 // @access  Public
 const loginUser = async (req, res) => {
   console.log("Backend: Request received for login");
+  if (checkDbConnection(res)) return;
+
   try {
     const { email, password } = req.body;
 
@@ -76,7 +96,8 @@ const loginUser = async (req, res) => {
     }
     console.log("Backend: User found.");
 
-    if (await user.matchPassword(password)) {
+    const isMatch = await user.matchPassword(password);
+    if (isMatch) {
       console.log("Backend: Password matched. Generating JWT...");
       res.json({
         _id: user._id,
@@ -90,26 +111,27 @@ const loginUser = async (req, res) => {
       res.status(401).json({ message: "Invalid credentials" });
     }
   } catch (error) {
-    console.log("Backend error in loginUser:", error.message);
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error("Backend error in loginUser:", error.message);
+    const isDbError = error.name === "MongooseError" || error.name === "MongoServerError" || error.name === "MongoNetworkError";
+    const userMessage = isDbError
+      ? "Database error. Please verify your MongoDB Atlas cluster is active."
+      : (error.message || "An unexpected error occurred during login.");
+    res.status(500).json({ message: userMessage, error: error.message });
   }
-};
-
-module.exports = {
-  registerUser,
-  loginUser,
 };
 
 // @desc    Get current user profile
 // @route   GET /api/auth/profile
 // @access  Private
 const getProfile = async (req, res) => {
+  if (checkDbConnection(res)) return;
   try {
     const user = await User.findById(req.user._id).select("-password");
     if (!user) return res.status(404).json({ message: "User not found" });
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error("Backend error in getProfile:", error.message);
+    res.status(500).json({ message: "Failed to fetch user profile", error: error.message });
   }
 };
 
@@ -117,6 +139,7 @@ const getProfile = async (req, res) => {
 // @route   PUT /api/auth/profile
 // @access  Private
 const updateProfile = async (req, res) => {
+  if (checkDbConnection(res)) return;
   try {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -151,7 +174,8 @@ const updateProfile = async (req, res) => {
       createdAt: updatedUser.createdAt,
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error("Backend error in updateProfile:", error.message);
+    res.status(500).json({ message: "Failed to update user profile", error: error.message });
   }
 };
 

@@ -1,13 +1,16 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 const connectDB = require("./config/db");
 
-// Load environment variables
-dotenv.config();
+// Load environment variables (supports running from any working directory)
+dotenv.config({ path: path.join(__dirname, ".env") });
+dotenv.config(); // Fallback for root .env if present
 
 // Connect to MongoDB (non-blocking — Vercel serverless safe)
-connectDB().catch((err) => console.error("MongoDB connection error:", err.message));
+connectDB().catch((err) => console.error("MongoDB initial connection error:", err.message));
 
 const app = express();
 
@@ -16,8 +19,9 @@ app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (mobile apps, curl, etc.)
     if (!origin) return callback(null, true);
-    const allowedOrigins = (process.env.CLIENT_ORIGIN || "http://localhost:5173").split(",");
-    if (allowedOrigins.some(o => origin.startsWith(o.trim()))) {
+    const allowedOrigins = (process.env.CLIENT_ORIGIN || "http://localhost:5173").split(",").map(o => o.trim());
+    const isLocalhost = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+    if (isLocalhost || allowedOrigins.some(o => origin.startsWith(o))) {
       callback(null, true);
     } else {
       callback(new Error(`CORS: origin ${origin} not allowed`));
@@ -29,7 +33,8 @@ app.use(express.json());
 
 // Health check route
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok" });
+  const dbStatus = mongoose.connection.readyState === 1 ? "connected" : "disconnected";
+  res.json({ status: "ok", database: dbStatus });
 });
 
 // Auth routes
